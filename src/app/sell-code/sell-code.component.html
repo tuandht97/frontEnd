@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Bán mã chứng chỉ quỹ</h4>
+          <form class="form-sample">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label>Mã chứng chỉ</label>
+                  <div>
+                    <input id="typeahead-focus" type="text" class="form-control" [(ngModel)]="typeaheadFocusModel"
+                      [ngbTypeahead]="focusSearch" (focus)="focus$.next($event.target.value)"
+                      (click)="click$.next($event.target.value)" #instance="ngbTypeahead"
+                      [ngModelOptions]="{standalone: true}" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="form-group">
+                  <label>Số lượng</label>
+                  <a href="" style="float:right; color: #05c0a5; text-decoration: none; font-size:small;">Toàn bộ</a>
+                  <div>
+                    <input type="number" class="form-control" placeholder="0" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label>Giá</label>
+                  <div>
+                    <input type="number" class="form-control" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="=form-row text-center">
+              <div class="col-12">
+                <button type="submit" class="btn btn-success btn-lg mr-2">Bán mã</button>
+                <button class="btn btn-danger btn-lg">Hủy</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

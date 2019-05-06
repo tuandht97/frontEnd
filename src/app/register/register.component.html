@@ -1,0 +1,183 @@
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <ngb-tabset class="tab-solid tab-solid-primary">
+          <ngb-tab>
+            <ng-template ngbTabTitle>Người mua
+            </ng-template>
+            <ng-template ngbTabContent>
+              <form class="forms-sample" (ngSubmit)="submit()" [formGroup]="registerForm">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Tài khoản</label>
+                  <div class="col-sm-9">
+                    <input type="text" formControlName="username" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                      <div *ngIf="f.username.errors.required">Bạn chưa nhập tài khoản
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Mật khẩu</label>
+                  <div class="col-sm-9">
+                    <input type="password" formControlName="password" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <div *ngIf="f.password.errors.required">Bạn chưa nhập mật khẩu</div>
+                      <div *ngIf="f.password.errors.requirements">Mật khẩu cần có ít nhất 8 ký tự, một chữ cái viết hoa
+                        và một số</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">First Name</label>
+                  <div class="col-sm-9">
+                    <input type="text" formControlName="firstName" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                      <div *ngIf="f.firstName.errors.required">Bạn chưa nhập first name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Last Name</label>
+                  <div class="col-sm-9">
+                    <input type="text" formControlName="lastName" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                      <div *ngIf="f.lastName.errors.required">Bạn chưa nhập last name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Số chứng minh thư nhân dân</label>
+                  <div class="col-sm-9">
+                    <input type="text" formControlName="identityCard" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.identityCard.errors }" />
+                    <div *ngIf="submitted && f.identityCard.errors" class="invalid-feedback">
+                      <div *ngIf="f.identityCard.errors.required">Bạn chưa nhập chứng minh thư nhân dân
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row text-center">
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary btn-lg">Đăng kí</button>
+                  </div>
+                </div>
+                <div class="register-link m-t-15 text-center">
+                  <p>Bạn đã có tài khoản? <a [routerLink]="['/login']" routerLinkActive="router-link-active"> Đăng
+                      nhập</a>
+                  </p>
+                </div>
+              </form>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle>Người bán
+            </ng-template>
+            <ng-template ngbTabContent>
+              <form class="forms-sample" (ngSubmit)="submitSeller()" [formGroup]="registerSellerForm">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Đối tượng</label>
+                  <div class="col-sm-9">
+                    <select class="form-control" formControlName="typeUser"
+                      [ngClass]="{ 'is-invalid': submitted && s.typeUser.errors }">
+                      <option [value]=0 selected="selected">Môi giới BDS - Công ty BDS</option>
+                      <option [value]=1>Chính chủ - Chủ nhà</option>
+                    </select>
+                    <div *ngIf="submitted && s.typeUser.errors" class="invalid-feedback">
+                      <div *ngIf="s.typeUser.errors.required">Bạn chưa chọn loại đối tượng
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Tài khoản</label>
+                  <div class="col-sm-9">
+                    <input type="text" formControlName="username" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && s.username.errors }" />
+                    <div *ngIf="submitted && s.username.errors" class="invalid-feedback">
+                      <div *ngIf="s.username.errors.required">Bạn chưa nhập tài khoản
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Mật khẩu</label>
+                  <div class="col-sm-9">
+                    <input type="password" formControlName="password" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && s.password.errors }" />
+                    <div *ngIf="submitted && s.password.errors" class="invalid-feedback">
+                      <div *ngIf="s.password.errors.required">Bạn chưa nhập mật khẩu</div>
+                      <div *ngIf="s.password.errors.requirements">Mật khẩu cần có ít nhất 8 ký tự, một chữ cái viết hoa
+                        và một chữ số</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">First Name</label>
+                  <div class="col-sm-9">
+                    <input type="text" formControlName="firstName" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && s.firstName.errors }" />
+                    <div *ngIf="submitted && s.firstName.errors" class="invalid-feedback">
+                      <div *ngIf="s.firstName.errors.required">Bạn chưa nhập first name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Last Name</label>
+                  <div class="col-sm-9">
+                    <input type="text" formControlName="lastName" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && s.lastName.errors }" />
+                    <div *ngIf="submitted && s.lastName.errors" class="invalid-feedback">
+                      <div *ngIf="s.lastName.errors.required">Bạn chưa nhập last name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Số chứng minh thư nhân dân</label>
+                  <div class="col-sm-9">
+                    <input type="text" formControlName="identityCard" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && s.identityCard.errors }" />
+                    <div *ngIf="submitted && s.identityCard.errors" class="invalid-feedback">
+                      <div *ngIf="s.identityCard.errors.required">Bạn chưa nhập chứng minh thư nhân dân
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Địa chỉ liên lạc</label>
+                  <div class="col-sm-9">
+                    <input type="text" formControlName="address" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && s.address.errors }" />
+                    <div *ngIf="submitted && s.address.errors" class="invalid-feedback">
+                      <div *ngIf="s.address.errors.required">Bạn chưa nhập địa chỉ
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row text-center">
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary btn-lg">Đăng kí</button>
+                  </div>
+                </div>
+                <div class="register-link m-t-15 text-center">
+                  <p>Bạn đã có tài khoản? <a [routerLink]="['/login']" routerLinkActive="router-link-active"> Đăng
+                      nhập</a>
+                  </p>
+                </div>
+              </form>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+  </div>
+</div>
