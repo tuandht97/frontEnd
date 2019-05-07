@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     config: NgbDropdownConfig,
-    private auth: AuthService,
+    public auth: AuthService,
     private router: Router
   ) {
     config.placement = 'bottom-right';

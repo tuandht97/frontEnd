@@ -57,7 +57,6 @@ export class AuthService {
     return this.http.post<{ token: string, status: number, message: string }>('/api/users/login', user)
       .pipe(
         map(result => {
-          console.log(result)
           if (result.token) {
             const helper = new JwtHelperService();
             const decodedToken = helper.decodeToken(result.token);

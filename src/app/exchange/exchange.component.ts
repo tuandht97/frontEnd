@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ItemService } from '../services/item.service';
 import { Item } from '../models/item';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-exchange',
@@ -14,17 +16,29 @@ export class ExchangeComponent implements OnInit {
   items;
   displayedColumns = ['code', 'amount', 'price', 'owner', 'change', 'buy'];
   dataSource: MatTableDataSource<Item>;
+  currentUserRole: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   filter = '';
 
-  constructor(public itemService: ItemService) {
+  constructor(
+    public itemService: ItemService,
+    private route: ActivatedRoute,
+    private auth: AuthService
+  ) {
+    this.currentUserRole = this.auth.getCurrentUserRole;
     this.getData();
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(
+      params => {
+        console.log('Got the JWT as: ', params['code']);
+        this.filter = params['code'];
+      }
+    )
   }
 
   /**
@@ -49,5 +63,9 @@ export class ExchangeComponent implements OnInit {
       this.dataSource.sort = this.sort;
     }, error => {
     });
+  }
+
+  get isUser() {
+    return this.currentUserRole === 'User';
   }
 }

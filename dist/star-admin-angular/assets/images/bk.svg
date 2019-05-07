@@ -1,0 +1,28 @@
+<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <defs>
+  <filter height="200%" width="200%" y="-50%" x="-50%" id="svg_2_blur">
+   <feGaussianBlur stdDeviation="0" in="SourceGraphic"/>
+  </filter>
+  <linearGradient y2="0" x2="1" y1="0" x1="0" id="svg_7">
+   <stop offset="0" stop-color="#fff"/>
+   <stop offset="1" stop-color="#000000"/>
+  </linearGradient>
+  <linearGradient y2="0" x2="1" y1="0" x1="0" id="svg_10">
+   <stop offset="0.300781" stop-color="#ff0000"/>
+   <stop offset="1" stop-color="#00ffff"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="#fff" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path stroke="#fff" id="svg_1" d="m2.40501,224.985793l0,0c0,-38.659928 31.340071,-69.999999 70,-69.999999l0,0c18.565146,0 36.369928,7.374974 49.497465,20.502521c13.127551,13.127551 20.502535,30.932318 20.502535,49.497479l0,0c0,38.659924 -31.340071,69.999999 -70,69.999999l0,0c-38.659924,0 -70,-31.340075 -70,-69.999999zm35,0l0,0c0,19.329959 15.670045,35 35,35c19.329969,0 35,-15.67004 35,-35c0,-19.329959 -15.67004,-35 -35,-35l0,0c-19.329955,0 -35,15.670045 -35,35z" stroke-width="1.5" fill="#ffff00"/>
+  <text stroke="url(#svg_7)" transform="matrix(4.69129043128512,0,0,4.69129043128512,-655.4855112865033,-673.1412777311176) " font-weight="bold" filter="url(#svg_2_blur)" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_2" y="199.772626" x="149.310367" stroke-width="0" fill="url(#svg_10)">BKChain</text>
+ </g>
+</svg>
