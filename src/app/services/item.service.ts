@@ -13,4 +13,8 @@ export class ItemService {
   getAll(): Observable<Item[]> {
     return this.http.get<Item[]>(`/api/items`);
   }
+
+  getByUser(): Observable<Item[]> {
+    return this.http.get<Item[]>(`/api/items/own`);
+  }
 }

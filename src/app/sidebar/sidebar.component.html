@@ -16,20 +16,20 @@
         </div>
         <a class="btn btn-success btn-block" *ngIf="isUser"[routerLink]="['/exchange']" routerLinkActive="router-link-active">Mua mã
           <i class="mdi mdi-plus"></i></a>
-        <a class="btn btn-success btn-block" *ngIf="isAdmin" [routerLink]="['/create']" routerLinkActive="router-link-active">Tạo mã
+        <a class="btn btn-success btn-block" *ngIf="isAdmin" [routerLink]="['/stock/create']" routerLinkActive="router-link-active">Tạo mã
           <i class="mdi mdi-plus"></i></a>
-        <a class="btn btn-success btn-block" *ngIf="isSeller" [routerLink]="['/create-estate']" routerLinkActive="router-link-active">Tạo bất động sản
+        <a class="btn btn-success btn-block" *ngIf="isSeller" [routerLink]="['/estate/create']" routerLinkActive="router-link-active">Tạo bất động sản
           <i class="mdi mdi-plus"></i></a>
       </div>
     </li>
     <li class="nav-item" *ngIf="isUser">
-      <a class="nav-link" routerLink="/sell" routerLinkActive="active">
+      <a class="nav-link" routerLink="/item/create" routerLinkActive="active">
         <i class="menu-icon mdi mdi-credit-card-multiple"></i>
         <span class="menu-title">Bán mã</span>
       </a>
     </li>
     <li class="nav-item" *ngIf="isSeller || isAdmin">
-      <a class="nav-link" routerLink="/list-estate" routerLinkActive="active">
+      <a class="nav-link" routerLink="/estate" routerLinkActive="active">
         <i class="menu-icon mdi mdi-city"></i>
         <span class="menu-title">Bất động sản</span>
       </a>
@@ -41,7 +41,7 @@
       </a>
     </li>
     <li class="nav-item" *ngIf="isUser || isSeller">
-      <a class="nav-link" routerLink="/asset" routerLinkActive="active">
+      <a class="nav-link" routerLink="/user" routerLinkActive="active">
         <i class="menu-icon mdi mdi-home"></i>
         <span class="menu-title">Tài sản</span>
       </a>

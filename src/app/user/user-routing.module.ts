@@ -1,21 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-import {
-    MatFormFieldModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSortModule
-} from '@angular/material';
-
-import { NgxEditorModule } from 'ngx-editor';
-import { ToastrModule } from 'ngx-toastr';
 
 import { AuthGuard } from '../guards/auth.guard';
 

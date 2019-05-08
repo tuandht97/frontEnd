@@ -7,15 +7,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/filter';
-
-const code = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
-  'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
-  'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
-  'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana',
-  'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island',
-  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia',
-  'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-item-create',
@@ -25,7 +17,20 @@ const code = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'Cal
 export class ItemCreateComponent implements OnInit {
 
   public typeaheadFocusModel: any;
-  constructor() { }
+
+  code: string[] = [];
+
+  assets: any[];
+
+  constructor(private userService: UserService) {
+    this.userService.getAsset().subscribe(data => {
+      this.assets = data['assets'];
+      for (var x in this.assets)
+        this.code.push(this.assets[x].code)
+      console.log(this.code)
+    }, error => {
+    });
+  }
 
   ngOnInit() {
   }
@@ -39,6 +44,6 @@ export class ItemCreateComponent implements OnInit {
       .debounceTime(200).distinctUntilChanged()
       .merge(this.focus$)
       .merge(this.click$.filter(() => !this.instance.isPopupOpen()))
-      .map(term => (term === '' ? code : code.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10));
+      .map(term => (term === '' ? this.code : this.code.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10));
 
 }

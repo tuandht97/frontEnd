@@ -22,4 +22,8 @@ export class EstateService {
     console.log(estate)
     return this.http.post(`/api/estates/create`, estate);
   }
+
+  getById(id: string): Observable<Estate> {
+    return this.http.get<Estate>(`/api/estates/` + id);
+  }
 }
