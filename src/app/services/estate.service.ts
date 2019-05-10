@@ -26,4 +26,8 @@ export class EstateService {
   getById(id: string): Observable<Estate> {
     return this.http.get<Estate>(`/api/estates/` + id);
   }
+
+  delete(id: string) {
+    return this.http.delete(`/api/estates/` + id);
+  }
 }

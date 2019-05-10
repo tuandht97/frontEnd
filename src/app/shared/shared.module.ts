@@ -12,7 +12,9 @@ import {
   MatPaginatorModule,
   MatDialogModule,
   MatInputModule,
-  MatSortModule
+  MatSortModule,
+  MatAutocompleteModule,
+  MatOptionModule
 } from '@angular/material';
 
 import { NgxEditorModule } from 'ngx-editor';
@@ -32,6 +34,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatTableModule,
     ToastrModule,
     MatPaginatorModule,
+    MatOptionModule,
+    MatAutocompleteModule,
     MatSortModule,
     NgxEditorModule,
     HttpClientModule,

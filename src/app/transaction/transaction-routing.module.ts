@@ -19,9 +19,10 @@ const router: Routes = [
                 data: { roles: ['User', 'Seller'] }
             },
             {
-                path: 'create',
+                path: 'create/:id',
                 component: TransactionCreateComponent,
-                canActivate: [AuthGuard]
+                canActivate: [AuthGuard],
+                data: { roles: 'User' }
             },
         ]
     }

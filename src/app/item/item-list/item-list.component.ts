@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
 export class ItemListComponent implements OnInit {
 
   items;
-  displayedColumns = ['code', 'amount', 'price', 'change', 'btn'];
+  displayedColumns = ['code', 'amount', 'price', 'btn'];
   dataSource: MatTableDataSource<Item>;
   currentUserRole: string;
 

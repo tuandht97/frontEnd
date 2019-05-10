@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ifStmt } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-estate-create',
@@ -16,6 +17,8 @@ export class EstateCreateComponent implements OnInit {
 
   estateForm: FormGroup;
   submitted = false;
+
+  pay: number;
 
   constructor(
     private auth: AuthService,
@@ -28,8 +31,8 @@ export class EstateCreateComponent implements OnInit {
   ngOnInit() {
     this.estateForm = this.formBuilder.group({
       name: ['', Validators.required],
-      amount: ['', [Validators.required, Validators.min(0)]],
-      price: ['', [Validators.required, Validators.min(0)]],
+      amount: [1, [Validators.required, Validators.min(1)]],
+      price: ['', [Validators.required, Validators.min(1)]],
       address: ['', Validators.required],
       squareMeter: ['', [Validators.required, Validators.min(0)]],
       description: ['', Validators.required]
@@ -68,6 +71,7 @@ export class EstateCreateComponent implements OnInit {
       return;
     }
 
+
     this.estateService.create(this.estateForm.value)
       .pipe(first())
       .subscribe(
@@ -82,4 +86,16 @@ export class EstateCreateComponent implements OnInit {
   }
 
   get f() { return this.estateForm.controls; }
+
+  onKey(value: number) {
+    this.pay = value / this.estateForm.value.amount;
+    if (this.pay < 1)
+      this.pay = 1;
+  }
+
+  onAmount(value: number) {
+    this.pay = this.estateForm.value.price / value;
+    if (this.pay < 1)
+      this.pay = 1;
+  }
 }

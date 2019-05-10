@@ -72,6 +72,8 @@ export class AuthService {
   logout() {
     localStorage.removeItem('access_token');
     this.currentUserRole.next(null);
+    this.currentUser.next(null);
+    this.currentUserID.next(null);
   }
 
   public getToken(): string {

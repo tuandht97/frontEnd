@@ -6,6 +6,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { UserComponent } from './user.component';
 import { UserAssetsComponent } from './user-assets/user-assets.component';
 import { UserSecurityComponent } from './user-security/user-security.component';
+import { UserCoinComponent } from './user-coin/user-coin.component';
 
 const userRoutes: Routes = [
     {
@@ -22,6 +23,12 @@ const userRoutes: Routes = [
                 path: 'security',
                 component: UserSecurityComponent,
                 canActivate: [AuthGuard]
+            },
+            {
+                path: 'coin',
+                component: UserCoinComponent,
+                canActivate: [AuthGuard],
+                data: { roles: 'User' }
             },
         ]
     }

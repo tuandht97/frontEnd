@@ -1,21 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/filter';
+import { Component, OnInit } from '@angular/core';
+import { map, switchMap, first } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
 
-const code = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
-  'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
-  'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
-  'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana',
-  'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island',
-  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Islands', 'Virginia',
-  'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+import { Item } from '../../models/item';
+
+import { UserService } from '../../services/user.service';
+import { TransactionService } from '../../services/transaction.service';
+import { ItemService } from '../../services/item.service';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
+
 @Component({
   selector: 'app-transaction-create',
   templateUrl: './transaction-create.component.html',
@@ -24,20 +19,78 @@ const code = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'Cal
 
 export class TransactionCreateComponent implements OnInit {
 
-  public typeaheadFocusModel: any;
-  constructor() { }
+  tranForm: FormGroup;
+  submitted = false;
 
-  ngOnInit() {
+  currentUser: string;
+  item: Item;
+
+  balance: number;
+  pay: number;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private userService: UserService,
+    private authService: AuthService,
+    private tranService: TransactionService,
+    private itemService: ItemService,
+    private router: Router,
+    private toastr: ToastrService,
+    private formBuilder: FormBuilder
+  ) {
+    this.activatedRoute.paramMap.pipe(
+      map(params => params.get('id')),
+      switchMap(id => this.itemService.getById(id))
+    ).subscribe(item => {
+      this.item = item;
+    });
   }
 
-  @ViewChild('instance') instance: NgbTypeahead;
-  focus$ = new Subject<string>();
-  click$ = new Subject<string>();
+  ngOnInit() {
+    this.tranForm = this.formBuilder.group({
+      amount: ['', [Validators.required, Validators.min(1)]]
+    });
 
-  focusSearch = (text$: Observable<string>) =>
-    text$
-      .debounceTime(200).distinctUntilChanged()
-      .merge(this.focus$)
-      .merge(this.click$.filter(() => !this.instance.isPopupOpen()))
-      .map(term => (term === '' ? code : code.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10));
+    this.userService.getAsset().subscribe(data => {
+      this.balance = data['balance'];
+    }, error => {
+    });
+  }
+
+  onKey(value: number) {
+    this.pay = value * this.item.price;
+  }
+
+  public submit() {
+    this.submitted = true;
+
+    if (this.tranForm.invalid) {
+      return;
+    }
+
+    if (this.pay > this.balance) {
+      this.toastr.error("Bạn không đủ coin trong tài khoản")
+      return;
+    }
+
+    if (this.tranForm.value > this.item.amount) {
+      this.toastr.error("Không đủ mã")
+      this.tranForm['controls']['amount'].setValue(0);
+      return;
+    }
+
+    this.tranService.create(this.item.id, this.tranForm.value.amount)
+      .pipe(first())
+      .subscribe(
+        result => {
+          this.toastr.success("Mua thành thành công"),
+            this.router.navigate(['user'])
+        },
+        err => {
+          this.toastr.error("Mua không thành công")
+        }
+      );
+  }
+
+  get f() { return this.tranForm.controls; }
 }

@@ -4,10 +4,14 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/do';
 
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(private auth: AuthService) { }
+    constructor(
+        private auth: AuthService,
+        private router: Router
+    ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -25,6 +29,7 @@ export class JwtInterceptor implements HttpInterceptor {
             if (err instanceof HttpErrorResponse) {
                 if (err.status === 401) {
                     this.auth.logout();
+                    this.router.navigate(['exchange'])
                 }
             }
         });

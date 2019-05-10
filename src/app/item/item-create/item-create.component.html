@@ -3,25 +3,43 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Bán mã chứng chỉ quỹ</h4>
-        <form class="form-sample">
+        <form class="form-sample" (ngSubmit)="submit()" [formGroup]="itemForm">
           <div class="row">
             <div class="col-md-5">
               <div class="form-group">
                 <label>Mã chứng chỉ</label>
                 <div>
-                  <input id="typeahead-focus" type="text" class="form-control" [(ngModel)]="typeaheadFocusModel"
-                    [ngbTypeahead]="focusSearch" (focus)="focus$.next($event.target.value)"
-                    (click)="click$.next($event.target.value)" #instance="ngbTypeahead"
-                    [ngModelOptions]="{standalone: true}" />
+                  <input type="text" placeholder="Chọn mã" aria-label="Number" [formControl]="myControl"
+                    [matAutocomplete]="auto" class="form-control" formControlName="code"
+                    [ngClass]="{ 'is-invalid': submitted && f.code.errors }" #code
+                    (keyup.enter)="updateCode(code.value)"
+                    (blur)="updateCode(code.value)">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option (onSelectionChange)="updateForm($event)" *ngFor="let option of filteredOptions | async"
+                      [value]="option">
+                      {{option}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+                    <div *ngIf="f.code.errors.required">Bạn chưa nhập mã
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-7">
               <div class="form-group">
                 <label>Số lượng</label>
-                <a href="" style="float:right; color: #05c0a5; text-decoration: none; font-size:small;">Toàn bộ</a>
+                <a style="float:right; color: #05c0a5; text-decoration: none; font-size:small;" (click)="sellAll()">Toàn
+                  bộ</a>
                 <div>
-                  <input type="number" class="form-control" placeholder="0" />
+                  <input type="number" formControlName="amount" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.amount.errors }" placeholder="Số lượng mã muốn tạo" value="{{amount}}">
+                  <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
+                    <div *ngIf="f.amount.errors.required">Bạn chưa nhập số lượng mã
+                    </div>
+                    <div *ngIf="f.amount.errors.min">Số lượng phải là số lớn hơn 0</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -29,9 +47,15 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Giá</label>
+                <label>Giá (coin)</label>
                 <div>
-                  <input type="number" class="form-control" />
+                  <input type="number" formControlName="price" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.price.errors }" placeholder="Gía bán với mỗi mã" />
+                  <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                    <div *ngIf="f.price.errors.required">Bạn chưa nhập giá bán
+                    </div>
+                    <div *ngIf="f.price.errors.min">Giá bán phải là số lớn hơn 0</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -39,7 +63,6 @@
           <div class="=form-row text-center">
             <div class="col-12">
               <button type="submit" class="btn btn-success btn-lg mr-2">Bán mã</button>
-              <button class="btn btn-danger btn-lg">Hủy</button>
             </div>
           </div>
         </form>

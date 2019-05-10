@@ -24,4 +24,9 @@ export class UserService {
   getAsset(): Observable<any[]> {
     return this.http.get<any[]>(`/api/users/current-assets`);
   }
+
+  buyCoin(amount: number) {
+    console.log(amount)
+    return this.http.post(`/api/users/buy-coin`, { amount });
+  }
 }

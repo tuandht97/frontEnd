@@ -1,46 +1,59 @@
-<div class="example-header">
-  <mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-  </mat-form-field>
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+
+        <ul>
+          <li>
+            <h1><a>{{balance}}</a></h1>
+          </li>
+          <li style="vertical-align: bottom;">
+            <h5 style="color:#f6a700">Coin đang có</h5>
+            <h5 style="color:grey">Sử dụng coin để mua mã</h5>
+          </li>
+          <li style="float:right">
+            <h5><a [routerLink]="['/user/coin']" routerLinkActive="router-link-active">Mua thêm <i
+                  class="fa fa-angle-right"></i></a></h5>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4>Danh sách mã chứng chỉ</h4>
+        <div class="example-header">
+          <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Lọc" value="{{filter}}">
+          </mat-form-field>
+        </div>
 
-<div class="example-container mat-elevation-z8">
+        <div class="example-container mat-elevation-z8">
 
-  <mat-table [dataSource]="dataSource" matSort>
+          <mat-table [dataSource]="dataSource" matSort>
+            <!-- Progress Column -->
+            <ng-container matColumnDef="code">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Mã </mat-header-cell>
+              <mat-cell *matCellDef="let row"> <a [routerLink]="['/stock', row.code]"
+                  routerLinkActive="router-link-active">{{row.code}}</a> </mat-cell>
+            </ng-container>
 
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
-    </ng-container>
+            <ng-container matColumnDef="amount">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Số lượng </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.amount}} </mat-cell>
+            </ng-container>
 
-    <!-- Progress Column -->
-    <ng-container matColumnDef="progress">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Progress </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.progress}}% </mat-cell>
-    </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+          </mat-table>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
-    </ng-container>
-
-    <!-- Color Column -->
-    <ng-container matColumnDef="color">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Color </mat-header-cell>
-      <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}} </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;">
-    </mat-row>
-  </mat-table>
-
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-<!-- Copyright 2018 Google Inc. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license -->
