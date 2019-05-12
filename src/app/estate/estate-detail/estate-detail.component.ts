@@ -4,7 +4,6 @@ import { EstateService } from '../../services/estate.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, map, first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { StockService } from '../../services/stock.service';
 
@@ -15,11 +14,13 @@ import { StockService } from '../../services/stock.service';
 })
 export class EstateDetailComponent implements OnInit {
 
-  createForm: FormGroup;
-  submitted = false;
-
   currentUserRole: string;
-  estate: Estate;
+  currentUser: string;
+  public estate: Estate;
+
+  processNow: number;
+
+  submited: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,39 +28,39 @@ export class EstateDetailComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder,
     private stockService: StockService
   ) { }
 
   ngOnInit() {
-    this.createForm = this.formBuilder.group({
-      code: ['', Validators.required]
-    });
+    this.currentUserRole = this.auth.getCurrentUserRole;
+    this.currentUser = this.auth.getCurrentUser;
 
     this.activatedRoute.paramMap.pipe(
       map(params => params.get('id')),
       switchMap(id => this.estateService.getById(id))
     ).subscribe(estate => {
-      console.log(estate)
       this.estate = estate;
+      this.processNow = (estate.process / 3) * 100;
+      this.submited = estate.checker.includes(this.currentUser);
+      if (estate.config)
+        this.submited = true;
     });
-
-    this.currentUserRole = this.auth.getCurrentUserRole;
   }
 
   submit() {
-    this.submitted = true;
 
-    if (this.createForm.invalid) {
+    if (this.submited) {
+      this.toastr.error("Bạn đã xác nhận bất động sản này trước đó")
       return;
     }
 
-    this.stockService.create(this.estate.id, this.createForm.value.code)
+    this.stockService.create(this.estate.id)
       .pipe(first())
       .subscribe(
         result => {
-          this.toastr.success("Xác nhận và tạo mã thành công"),
-            this.router.navigate(['stock'])
+          this.processNow = ((this.estate.process + 1) / 3) * 100;
+          this.toastr.success("Xác nhận thành công"),
+            this.router.navigate(['estate'])
         },
         err => {
           this.toastr.error("Xác nhận và tạo mã không thành công")
@@ -68,8 +69,6 @@ export class EstateDetailComponent implements OnInit {
   }
 
   submitDelete() {
-    this.submitted = true;
-
     if (this.estate.config) {
       this.toastr.error("Không thể xóa bất động sản đã xác nhận");
       return;
@@ -87,8 +86,6 @@ export class EstateDetailComponent implements OnInit {
         }
       );
   }
-
-  get f() { return this.createForm.controls; }
 
   get isAdmin() {
     return this.currentUserRole === 'Admin';

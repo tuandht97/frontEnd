@@ -3,6 +3,7 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { AuthService } from '../../services/auth.service';
 import { Estate } from '../../models/estate';
 import { EstateService } from '../../services/estate.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-estate-list',
@@ -14,13 +15,17 @@ export class EstateListComponent implements OnInit {
   filter = '';
   currentUserRole: string;
 
-  displayedColumns = ['name', 'owner', 'price', 'amount', 'config', 'btn'];
+  displayedColumns = ['name', 'code', 'owner', 'price', 'amount', 'process', 'btn'];
   dataSource: MatTableDataSource<Estate>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private auth: AuthService, private estateService: EstateService) {
+  constructor(
+    private auth: AuthService,
+    private estateService: EstateService,
+    private router: Router
+  ) {
     this.currentUserRole = this.auth.getCurrentUserRole;
     if (this.currentUserRole === 'Admin')
       this.getAll();
@@ -70,5 +75,13 @@ export class EstateListComponent implements OnInit {
 
   get isSeller() {
     return this.currentUserRole === 'Seller';
+  }
+
+  goConfig(id) {
+    this.router.navigate(['estate/' + id])
+  }
+
+  goUpdate(id) {
+    this.router.navigate(['estate/create'])
   }
 }

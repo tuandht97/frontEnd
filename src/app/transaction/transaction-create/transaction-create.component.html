@@ -8,8 +8,8 @@
       <br>
       <div class="row">
         <div class="col-lg-5">
-          <h4 class="font-weight-bold text-center">{{item.code}}</h4>
-          <h5 class="font-weight-normal text-center">{{item.owner}}</h5>
+          <h4 class="font-weight-bold text-center">{{item?.code}}</h4>
+          <h5 class="font-weight-normal text-center">{{item?.owner}}</h5>
         </div>
         <div class="col-lg-7">
           <div class="row">
@@ -19,11 +19,11 @@
             </div>
             <div class="col-lg-4">
               <span>Giá bán</span>
-              <p>{{item.price}}</p>
+              <p>{{item?.price}}</p>
             </div>
             <div class="col-lg-4">
               <span>Số lượng</span>
-              <p>{{item.amount}}</p>
+              <p>{{item?.amount}}</p>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
               <div>
                 <input type="number" formControlName="amount" class="form-control"
                   [ngClass]="{ 'is-invalid': submitted && f.amount.errors }" placeholder="Số lượng mã muốn mua"
-                  value="{{amount}}" #box (keyup)="onKey(box.value)">
+                  #box (keyup)="onKey(box.value)">
                 <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
                   <div *ngIf="f.amount.errors.required">Bạn chưa nhập số lượng mã
                   </div>

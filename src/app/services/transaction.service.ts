@@ -15,8 +15,6 @@ export class TransactionService {
   }
 
   create(idItem: string, amount: number) {
-    console.log(idItem)
-    console.log(amount)
     return this.http.post(`/api/transactions/create`, { idItem, amount });
   }
 }

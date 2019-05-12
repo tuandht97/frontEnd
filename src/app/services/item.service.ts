@@ -23,7 +23,10 @@ export class ItemService {
   }
 
   create(item: Item) {
-    console.log(item)
     return this.http.post(`/api/items/create`, item);
+  }
+
+  delete(id: string){
+    return this.http.delete(`/api/items/` + id);
   }
 }

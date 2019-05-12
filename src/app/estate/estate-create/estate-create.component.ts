@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ifStmt } from '@angular/compiler/src/output/output_ast';
+import { TypeEstate } from '../../enum/typeEstate.enum';
 
 @Component({
   selector: 'app-estate-create',
@@ -20,6 +20,9 @@ export class EstateCreateComponent implements OnInit {
 
   pay: number;
 
+  keys = Object.keys;
+  typeEstate = TypeEstate;
+
   constructor(
     private auth: AuthService,
     private estateService: EstateService,
@@ -30,12 +33,15 @@ export class EstateCreateComponent implements OnInit {
 
   ngOnInit() {
     this.estateForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.maxLength(100)]],
+      code: ['', [Validators.required, Validators.maxLength(10)]],
       amount: [1, [Validators.required, Validators.min(1)]],
-      price: ['', [Validators.required, Validators.min(1)]],
-      address: ['', Validators.required],
+      sumPrice: ['', [Validators.required, Validators.min(10000)]],
+      price: [1, Validators.required],
+      typeEstate: ['', Validators.required],
+      address: ['', [Validators.required, Validators.maxLength(200)]],
       squareMeter: ['', [Validators.required, Validators.min(0)]],
-      description: ['', Validators.required]
+      description: [null, Validators.required]
     });
   }
 
@@ -48,20 +54,16 @@ export class EstateCreateComponent implements OnInit {
         var reader = new FileReader();
 
         reader.onload = (event) => {
-          console.log(event);
           this.urls.push(reader.result);
         }
 
         reader.readAsDataURL(event.target.files[i]);
-        console.log(event.target.files[i]);
       }
     }
   }
 
   removeImage(id: number) {
-    console.log(this.urls);
     this.urls.splice(id, 1);
-    console.log(this.urls);
   }
 
   public submit() {
@@ -71,30 +73,31 @@ export class EstateCreateComponent implements OnInit {
       return;
     }
 
+    this.estateForm['controls']['price'].setValue(this.pay);
 
-    this.estateService.create(this.estateForm.value)
-      .pipe(first())
-      .subscribe(
-        result => {
-          this.toastr.success("Tạo bất động sản thành công"),
-            this.router.navigate(['estate'])
-        },
-        err => {
-          this.toastr.error("Tạo bất động sản không thành công")
-        }
-      );
+    // this.estateService.create(this.estateForm.value)
+    //   .pipe(first())
+    //   .subscribe(
+    //     result => {
+    //       this.toastr.success("Tạo bất động sản thành công"),
+    //         this.router.navigate(['estate'])
+    //     },
+    //     err => {
+    //       this.toastr.error("Tạo bất động sản không thành công")
+    //     }
+    //   );
   }
 
   get f() { return this.estateForm.controls; }
 
   onKey(value: number) {
-    this.pay = value / this.estateForm.value.amount;
+    this.pay = (value / 10000) / this.estateForm.value.amount;
     if (this.pay < 1)
       this.pay = 1;
   }
 
   onAmount(value: number) {
-    this.pay = this.estateForm.value.price / value;
+    this.pay = (this.estateForm.value.sumPrice / 10000) / value;
     if (this.pay < 1)
       this.pay = 1;
   }

@@ -22,7 +22,7 @@
             <!-- Name Column -->
             <ng-container matColumnDef="price">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Giá bán </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.price | currency:'VND'}} </mat-cell>
+              <mat-cell *matCellDef="let row"> {{row.price}} coin</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="amount">
@@ -33,7 +33,8 @@
             <ng-container matColumnDef="btn">
               <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
               <mat-cell *matCellDef="let row"> <a class="btn btn-danger btn-rounded btn-fw text-white"
-                  [routerLink]="['/buy']" routerLinkActive="router-link-active" *ngIf="isUser">Ngừng bán</a> </mat-cell>
+                  (click)="removeItem(row.id)" *ngIf="!row.sold">Ngừng bán</a>
+                <span class="text-danger" *ngIf="row.sold">Đã ngừng bán</span> </mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

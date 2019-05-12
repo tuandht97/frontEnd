@@ -61,6 +61,8 @@ export class AuthService {
             const helper = new JwtHelperService();
             const decodedToken = helper.decodeToken(result.token);
             this.currentUserRole.next(decodedToken.role);
+            this.currentUser.next(decodedToken.name);
+            this.currentUserID.next(decodedToken.sub);
             localStorage.setItem('access_token', result.token);
           }
           //  return true;

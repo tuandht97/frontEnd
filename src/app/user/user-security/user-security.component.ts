@@ -60,7 +60,6 @@ export class UserSecurityComponent implements OnInit {
     this.auth.deleteAuth(this.userID).subscribe((data) => {
       const result = data.body
       if (data['status'] === 200) {
-        console.log(result);
         this.authcode = "";
         this.getAuthDetails();
       }

@@ -15,24 +15,14 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
-import { HistorytranComponent } from './historytran/historytran.component';
 import { ExchangeComponent } from './exchange/exchange.component';
-import { AssetComponent } from './asset/asset.component';
-import { CreateStockComponent } from './create-stock/create-stock.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { SellCodeComponent } from './sell-code/sell-code.component';
-import { ListCodeComponent } from './list-code/list-code.component';
-import { BuyComponent } from './buy/buy.component';
-import { DetailComponent } from './detail/detail.component';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
-import { ListEstateComponent } from './list-estate/list-estate.component';
-import { CreateEstateComponent } from './create-estate/create-estate.component';
 
 import { JwtInterceptor } from '../app/auth/jwt.interceptor';
-import { SecurityComponent } from './security/security.component';
 
 import { SharedModule } from './shared/shared.module';
 
@@ -46,19 +36,9 @@ export function tokenGetter() {
     NavbarComponent,
     SidebarComponent,
     FooterComponent,
-    HistorytranComponent,
     ExchangeComponent,
-    AssetComponent,
-    CreateStockComponent,
     LoginComponent,
     RegisterComponent,
-    SellCodeComponent,
-    ListCodeComponent,
-    BuyComponent,
-    DetailComponent,
-    ListEstateComponent,
-    CreateEstateComponent,
-    SecurityComponent,
   ],
   imports: [
     BrowserModule,

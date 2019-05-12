@@ -5,7 +5,7 @@
         <h4>Danh sách mã chứng chỉ</h4>
         <div class="example-header">
           <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" value="{{filter}}">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Lọc" value="{{filter}}">
           </mat-form-field>
         </div>
 
@@ -19,6 +19,11 @@
                   routerLinkActive="router-link-active">{{row.name}}</a> </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="code">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Mã </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.code}} </mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="owner">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Người bán </mat-header-cell>
               <mat-cell *matCellDef="let row"> {{row.owner}} </mat-cell>
@@ -27,7 +32,7 @@
             <!-- Name Column -->
             <ng-container matColumnDef="price">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Giá bán </mat-header-cell>
-              <mat-cell *matCellDef="let row"> {{row.price | currency:'VND'}} </mat-cell>
+              <mat-cell *matCellDef="let row"> {{row.price}} coin </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="amount">
@@ -35,21 +40,24 @@
               <mat-cell *matCellDef="let row"> {{row.amount}} </mat-cell>
             </ng-container>
 
-            <!-- Color Column -->
-            <ng-container matColumnDef="config">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái </mat-header-cell>
-              <mat-cell *matCellDef="let row"
-                [ngClass]="{'text-danger': row.config == false,'text-success': row.config == true}">
-                {{row.config ? 'Xác nhận' : 'Chưa xác nhận'}}</mat-cell>
+            <ng-container matColumnDef="process">
+              <mat-header-cell *matHeaderCellDef>Xác nhận</mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <ngb-progressbar type="success" [value]="(row.process / 3)* 100" style="width: 50%; text-align: center">
+                  {{row.process}}/3
+                </ngb-progressbar>
+              </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="btn">
               <mat-header-cell *matHeaderCellDef></mat-header-cell>
               <mat-cell *matCellDef="let row">
-                <a class="btn btn-primary btn-rounded btn-fw text-white" [routerLink]="['/estate', row.id]"
-                  routerLinkActive="router-link-active" *ngIf="isAdmin">Tạo mã</a>
-                <a class="btn btn-primary btn-rounded btn-fw text-white" [routerLink]="['/estate', row.id]"
-                  routerLinkActive="router-link-active" *ngIf="isSeller">Cập nhật</a>
+                <button class="btn btn-primary btn-rounded btn-fw text-white" *ngIf="isAdmin" [disabled]="row?.config"
+                  (click)="goConfig(row.id)">Xác nhận
+                </button>
+                <button class="btn btn-primary btn-rounded btn-fw text-white" *ngIf="isSeller" [disabled]="row?.process > 0"
+                  (click)="goUpdate(row.id)">Cập nhật
+                </button>
               </mat-cell>
             </ng-container>
 

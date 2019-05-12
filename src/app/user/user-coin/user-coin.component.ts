@@ -48,7 +48,6 @@ export class UserCoinComponent implements OnInit {
     this.userService.buyCoin(this.valueSel)
       .subscribe(
         result => {
-          console.log(result)
           this.toastr.success("Giao dịch thành công"),
             this.router.navigate(['user'])
         },

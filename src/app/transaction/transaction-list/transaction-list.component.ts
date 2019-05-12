@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Transaction } from '../../models/transaction';
 import { TransactionService } from '../../services/transaction.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-transaction-list',
@@ -21,9 +22,11 @@ export class TransactionListComponent implements OnInit {
   filter = '';
 
   constructor(
-    public tranService: TransactionService
+    public tranService: TransactionService,
+    public auth: AuthService
   ) {
     this.getData();
+    this.currentUserRole = this.auth.getCurrentUserRole;
   }
 
   ngOnInit() {
@@ -38,10 +41,17 @@ export class TransactionListComponent implements OnInit {
   getData() {
     this.tranService.getAll().subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
-      console.log(this.dataSource)
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, error => {
     });
+  }
+
+  get isSeller() {
+    return this.currentUserRole === 'Seller';
+  }
+
+  get isUser() {
+    return this.currentUserRole === 'User';
   }
 }

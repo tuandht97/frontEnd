@@ -20,15 +20,13 @@
                         </ngb-carousel>
                     </div>
                     <div class="col-md-4">
-                        <h3 class="font-weight-bold">{{estate.name}}</h3>
+                        <h3 class="font-weight-bold">{{estate?.name}}</h3>
                         <div class="bg-light row p-2 mb-2">
                             <div class="col-8 d-flex align-items-center">
-                                <span class="text-primary display-4">{{estate.price}} coin</span>
+                                <span class="text-info font-weight-bold">Mã: {{estate?.code}}</span>
                             </div>
                             <div class="col-4 d-flex align-items-center">
-                                <h5
-                                    [ngClass]="{'text-danger': estate.config == false,'text-success': estate.config == true}">
-                                    {{estate.config ? 'Xác nhận' : 'Chưa xác nhận'}}</h5>
+                                <span class="text-warning ">{{estate?.price}} coin</span>
                             </div>
                         </div>
                         <div class="row">
@@ -37,25 +35,20 @@
                             </div>
                             <div class="col-6">
                                 <p class="mb-2">
-                                    {{estate.amount}}
+                                    {{estate?.amount}}
                                 </p>
                             </div>
                         </div>
-                        <form class="forms-sample" (ngSubmit)="submit()" [formGroup]="createForm" *ngIf="isAdmin">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Mã bất động sản</label>
-                                <div class="col-sm-9">
-                                    <input type="text" formControlName="code" class="form-control"
-                                        [ngClass]="{ 'is-invalid': submitted && f.code.errors }" />
-                                    <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
-                                        <div *ngIf="f.code.errors.required">Bạn chưa nhập mã bất động sản
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-md-12 grid-margin">
+                            <h4>{{estate?.process}}/3 người đã xác nhận</h4>
+                            <p class="text-danger">Mã sẽ được tạo khi có đủ 3 người xác nhận</p>
+                            <ngb-progressbar type="success" [value]="processNow"></ngb-progressbar>
+                        </div>
+                        <form class="forms-sample" (ngSubmit)="submit()" *ngIf="isAdmin">
                             <div class="form-row text-center">
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary btn-lg">Xác nhận và tạo mã</button>
+                                    <button type="submit" class="btn btn-primary btn-lg" [disabled]="submited">Xác
+                                        nhận</button>
                                 </div>
                             </div>
                         </form>
@@ -81,10 +74,10 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="font-weight-bold">Thông tin về bất động sản</h4>
-                <h5>Địa chỉ: {{estate.address}}</h5>
-                <h5>Diện tích: {{estate.squareMeter}} m<sup>2</sup></h5>
+                <h5>Địa chỉ: {{estate?.address}}</h5>
+                <h5>Diện tích: {{estate?.squareMeter}} m<sup>2</sup></h5>
                 <h5>Mô tả</h5>
-                <div style="text-align: justify;" [innerHtml]="estate.description">
+                <div style="text-align: justify;" [innerHtml]="estate?.description">
                 </div>
             </div>
         </div>

@@ -14,7 +14,11 @@ export class StockService {
     return this.http.get<Stock>(`/api/stocks/` + code);
   }
 
-  create(estateId: string, code: string) {
-    return this.http.post(`/api/stocks/create`, { estateId, code });
+  getAll(): Observable<Stock[]> {
+    return this.http.get<Stock[]>(`/api/stocks`);
+  }
+
+  create(estateId: string) {
+    return this.http.post(`/api/stocks/create`, { estateId });
   }
 }

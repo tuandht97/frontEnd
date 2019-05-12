@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { UserService } from '../../services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-user-assets',
@@ -14,14 +15,18 @@ export class UserAssetsComponent implements OnInit {
   displayedColumns = ['code', 'amount'];
   dataSource: MatTableDataSource<Asset>;
 
+  currentUserRole: string;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   filter = '';
 
   constructor(
-    public userService: UserService
+    public userService: UserService,
+    public auth: AuthService
   ) {
+    this.currentUserRole = this.auth.getCurrentUserRole;
     this.getData();
   }
 
@@ -42,6 +47,10 @@ export class UserAssetsComponent implements OnInit {
       this.balance = data['balance'];
     }, error => {
     });
+  }
+
+  get isUser() {
+    return this.currentUserRole === 'User';
   }
 }
 

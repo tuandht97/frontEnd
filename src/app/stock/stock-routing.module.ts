@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
 
 import { StockComponent } from './stock.component';
-import { StockCreateComponent } from './stock-create/stock-create.component';
 import { StockDetailComponent } from './stock-detail/stock-detail.component';
 import { StockListComponent } from './stock-list/stock-list.component';
 
@@ -16,12 +15,6 @@ const router: Routes = [
             {
                 path: '',
                 component: StockListComponent,
-                canActivate: [AuthGuard],
-                data: { roles: 'Admin' }
-            },
-            {
-                path: 'create',
-                component: StockCreateComponent,
                 canActivate: [AuthGuard],
                 data: { roles: 'Admin' }
             },

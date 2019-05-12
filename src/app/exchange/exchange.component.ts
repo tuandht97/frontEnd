@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ItemService } from '../services/item.service';
 import { Item } from '../models/item';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -14,9 +14,10 @@ import { AuthService } from '../services/auth.service';
 export class ExchangeComponent implements OnInit {
 
   items;
-  displayedColumns = ['code', 'amount', 'price', 'owner', 'change', 'buy'];
+  displayedColumns = ['code', 'amount', 'price', 'owner', 'change'];
   dataSource: MatTableDataSource<Item>;
   currentUserRole: string;
+  currentUser: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -26,16 +27,19 @@ export class ExchangeComponent implements OnInit {
   constructor(
     public itemService: ItemService,
     private route: ActivatedRoute,
+    private router: Router,
     private auth: AuthService
   ) {
     this.currentUserRole = this.auth.getCurrentUserRole;
+    this.currentUser = this.auth.getCurrentUser;
+    if (this.isUser)
+      this.displayedColumns.push('buy')
     this.getData();
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe(
       params => {
-        console.log('Got the JWT as: ', params['code']);
         this.filter = params['code'];
       }
     )
@@ -67,5 +71,9 @@ export class ExchangeComponent implements OnInit {
 
   get isUser() {
     return this.currentUserRole === 'User';
+  }
+
+  goBuy(id) {
+    this.router.navigate(['transaction/create/' + id])
   }
 }

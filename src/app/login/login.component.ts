@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         result => {
-          console.log(result)
           if (result === 200)
             this.router.navigate(['exchange'])
           if (result === 206)

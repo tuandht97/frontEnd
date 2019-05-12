@@ -3,6 +3,7 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ItemService } from '../../services/item.service';
 import { Item } from '../../models/item';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-item-list',
@@ -12,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
 export class ItemListComponent implements OnInit {
 
   items;
-  displayedColumns = ['code', 'amount', 'price', 'btn'];
+  displayedColumns = ['code', 'amount', 'price'];
   dataSource: MatTableDataSource<Item>;
   currentUserRole: string;
 
@@ -23,6 +24,7 @@ export class ItemListComponent implements OnInit {
 
   constructor(
     public itemService: ItemService,
+    private toastr: ToastrService,
     private auth: AuthService
   ) {
     this.currentUserRole = this.auth.getCurrentUserRole;
@@ -30,6 +32,9 @@ export class ItemListComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.isUser) {
+      this.displayedColumns.push('btn');
+    }
   }
 
   applyFilter(filterValue: string) {
@@ -49,5 +54,15 @@ export class ItemListComponent implements OnInit {
 
   get isUser() {
     return this.currentUserRole === 'User';
+  }
+
+  removeItem(id) {
+    this.itemService.delete(id).subscribe(
+      result => {
+        this.toastr.success("Ngừng bán mã thành công")
+      },
+      err => {
+        this.toastr.error("Ngừng bán mã không thành công")
+      });
   }
 }

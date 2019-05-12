@@ -12,12 +12,10 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   register(user: User) {
-    console.log(user)
     return this.http.post(`/api/users/register`, user);
   }
 
   registerSeller(user: User) {
-    console.log(user)
     return this.http.post(`/api/users/register-seller`, user);
   }
 
@@ -26,7 +24,15 @@ export class UserService {
   }
 
   buyCoin(amount: number) {
-    console.log(amount)
     return this.http.post(`/api/users/buy-coin`, { amount });
   }
+
+  getAllUser(): Observable<List> {
+    return this.http.get<List>(`/api/users`);
+  }
+}
+
+export interface List{
+  user: User[],
+  seller:User[]
 }

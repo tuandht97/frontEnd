@@ -19,7 +19,6 @@ export class EstateService {
   }
 
   create(estate: Estate) {
-    console.log(estate)
     return this.http.post(`/api/estates/create`, estate);
   }
 
